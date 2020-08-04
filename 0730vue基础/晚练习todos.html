@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            text-decoration: none;
+        }
+        #app{
+            width: 300px;
+            height: 200px;
+            background-color: royalblue;
+            position: relative;
+            left: 50%;
+            transform: translate(-50%);
+        }
+        input{
+            width: 80%;
+        }
+        .headed{
+            display: flex;
+            justify-content: space-between;
+        }
+        .add{
+            width: 20%;
+        }
+        .conto{
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+        span{
+            width: 80%;
+        }
+        .delete{
+            width: 20%;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="headed">
+            <input type="text" :value='text' @input='input'>
+            <button class="add" @click='add'>新增</button>
+        </div>
+        <div class="contont">
+            <div v-for='(item,index) in arr' class="conto">
+                <span>{{item}}</span>
+                <button class="delete" @click='dele(index)'>删除</button>
+            </div>
+          
+        </div>
+    </div>
+</body>
+</html>
+<script src="./vue.js"></script>
+<script>
+    var app = new Vue({
+        el:'#app',
+        data:{
+            text:'',
+            arr:[]
+        },
+        methods:{
+            input(e){
+                this.text = e.target.value
+            },
+            add(){
+                this.arr.push(this.text);
+                this.text= ''
+
+                // var con = document.querySelector('.contont')
+                // var cont = document.createElement('div')
+                // cont.className = 'conto'
+                // cont.innerHTML = `<span>${this.text}</span>
+                // <button class="delete">删除</button>`
+                // con.appendChild(cont)
+                // this.text= ''
+                // var conto = document.querySelectorAll('.conto')
+                // for(let i = 0;i<conto.length;i++){
+                //     conto[i].onclick = function(){
+                //         conto[i].remove();
+                //     }
+                // }
+            },
+            dele(index){
+                this.arr.splice(index,1)
+                // var conto = document.querySelectorAll('.conto')
+                // for(let i = 0;i<conto.length;i++){
+                //     conto[i].onclick = function(){
+                //         conto[i].remove();
+                //     }
+                // }
+            }
+        }
+    })
+</script>

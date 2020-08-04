@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="aoo">
+      <div class="box">
+        <p class="aa">我是内哦让那个</p>
+      </div>
+    </div>
+    <script>
+      // 虚拟dom 就是js 数组或者对象
+    //   var str = `
+    //     <div id="aoo">
+    //     <div class="box">
+    //         <p class="aa">我是内容</p>
+    //     </div>
+    // </div>
+    //     `;
+
+        // 通过正则 ....  变为 虚拟dom
+      var vNode = {
+        nodeType: 1,
+        nodeName: "div",
+        children: [
+          {
+            nodeType: 3,
+            nodeName: "id",
+            value: "aoo",
+          },
+          {
+            nodeType: 1,
+            nodeName: "div",
+            children: [
+              {
+                nodeType: 3,
+                nodeName: "class",
+                value: "box",
+              },
+              {
+                nodeType: 1,
+                nodeName: "p",
+                children: [
+                  {
+                    nodeType: 9,
+                    nodeName: "text",
+                    value: "你好世界",
+                  },
+                  {
+                    nodeType: 3,
+                    nodeName: "class",
+                    value: "aa",
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      };
+
+      var str = `
+        <div id="aoo">
+        <div class="box">
+            <p class="aa">你好世界</p>
+        </div>
+    </div>
+        `;
+        // 添加到也页面中
+    </script>
+  </body>
+</html>

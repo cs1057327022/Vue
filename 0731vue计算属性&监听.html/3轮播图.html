@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .view {
+        width: 300px;
+        height: 140px;
+        position: relative;
+        /* overflow: hidden; */
+      }
+      .view img {
+        width: 300px;
+        height: 140px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div class="view">
+        <img
+          v-for="(item,index) in img"
+          :src="item"
+          v-show="index==currentIndex"
+          alt=""
+        />
+      </div>
+      <button @click="next">下一张</button>
+      <button @click="pre">上一张</button>
+    </div>
+    <script src="./vue.js"></script>
+    <script>
+      var app = new Vue({
+        el: "#app",
+        data: {
+          img: ["./img/1.jpg", "./img/2.jpg", "./img/3.jpg"],
+          currentIndex: 0,
+        },
+        methods: {
+          next() {
+            ++this.currentIndex;
+            if(this.currentIndex>this.img.length-1){
+                this.currentIndex = 0
+            }
+          },
+          pre() {
+            --this.currentIndex;
+            if(this.currentIndex<0){
+                this.currentIndex = this.img.length-1
+            }
+          },
+        },
+      });
+    </script>
+  </body>
+</html>

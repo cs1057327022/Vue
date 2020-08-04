@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            text-decoration: none;
+        }
+        .banar>img{
+            width: 500px;
+            height: 300px;
+        }
+        #app{
+            width: 500px;
+            height: 300px;
+            position: relative;
+            left: 50%;
+            transform: translate(-50%);
+        }
+        .control-btn{
+            width: 40px;
+            height: 40px;
+            background-color: rosybrown;
+            opacity: .5;
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            transform: translate(0,-50%);
+            text-align: center;
+            line-height: 40px;
+            cursor: pointer;
+        }
+        .left{
+            left: 0;
+        }
+        .right{
+            right: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="banar">
+            <img v-for='(item,index) in imgs' :src="item"  v-if='num == index'>
+        </div>
+        <div class="control">
+            <div class="left control-btn" @click='left'>&lt;</div>
+            <div class="right control-btn" @click='right'>&gt;</div>
+        </div>
+    </div>
+</body>
+</html>
+<script src="./vue.js"></script>
+<script>
+    var app = new Vue({
+        el:'#app',
+        data:{
+            imgs:['../image/11.jpg','../image/22.jpg','../image/33.jpg'],
+            num:0
+        },
+        methods:{
+            left(){
+                this.num--
+                if(this.num<0){
+                    this.num=this.imgs.length-1
+                }
+            },
+            right(){
+                this.num++
+                if(this.num>this.imgs.length-1){
+                    this.num=0
+                }
+            }
+        }
+    })
+</script>

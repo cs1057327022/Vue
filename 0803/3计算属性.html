@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="app">
+      <h1>{{ reverseStr() }}</h1>
+      <h1>{{ reverseStr() }}</h1>
+      <h1>{{ reverseStr() }}</h1>
+      <h1>{{ reverseStr() }}</h1>
+      <h3>{{ reverseStr1 }}</h3>
+      <h3>{{ reverseStr1 }}</h3>
+      <h3>{{ reverseStr1 }}</h3>
+      <h3>{{ reverseStr1 }}</h3>
+      <button @click="changeMessage">修改message</button>
+    </div>
+    <script src="./vue.js"></script>
+    <script>
+      var app = new Vue({
+        el: "#app",
+        data: {
+          message: "hellow",
+          x: 0,
+        },
+        methods: {
+          reverseStr() {
+            console.log("zhixing");
+            // console.log(++this.x)
+            return this.message.split("").reverse().join("");
+          },
+          changeMessage() {
+            this.message = "new message";
+            //   this.reverseStr1 = '111' // bug 不能直接修改计算属性
+            console.log(this.reverseStr1); // 使用了计算属性、
+
+            // 注意：计算属性仅存储的是当前的状态。只看今生不看前世
+            this.message = "hellow";
+          },
+        },
+        /**
+         * computed 计算属性 值为对象
+         * key 只是一个普通的属性；不是函数；key 赋值 后面函数returen 的返回值
+         */
+        computed: {
+          // reverseStr1 不是函数 是一个计算属性
+          // 函数：再使用就按属性时候执行。
+          reverseStr1: function () {
+            // 函数的执行
+            // 1：使用了计算属性
+            // 2：再次执行；这个函数中用到的【data中数据】发生变化时候；会再次执行。
+            console.log("计算属性执行了");
+            return this.message.split("").reverse().join("");
+          },
+        },
+        created() {
+          // this.reverseStr1()//  : this.reverseStr1 is not a function"
+        },
+      });
+    </script>
+  </body>
+</html>
+<!-- 
+  计算属性 和 methods 的区别
+计算属性是基于它们的响应式依赖进行缓存的。只在相关响应式依赖发生改变时它们才会重新求值
+
+、   methods 普通函数；多次执行；每次执行初始化
+
+   计算属性应用；
+   1： 与大量计算有感的内容
+   2： 渲染的函数返回值； computed 带她methods 
+   3： 缓存；不是浏览器 只是用代码实现了 临时存储；避免程序重复执行
+ -->

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+      <!-- 1 init 时刻；el 可以找到id = app 的元素 
+        这个时候不判断tempalte  
+        没由；报错 cannot find elment '#app'
+      -->
+    <div id="app">
+        <!-- 
+            3: 如果没有template 属性；这个就是vue模板
+               将 el 指定的 #app 编译大 template* 中；并及逆行渲染 
+
+            注意：这里没有实现；数据的响应式绑定。{{msg}} 是一个普通的字符串   
+         -->
+        <h1>{{msg}}</h1>
+        <button @click="msgChange">变更内容</button> 
+    </div>
+    <script src="./vue.js"></script>
+    <script>
+      var app = new Vue({
+        // 2 vue 判断是否由templage 
+        //   template 里面也需要由根元素 #app
+        //   否则：渲染报错  cannot find Element #app
+        // 3: 将template 作为 vue 模板，被render 渲染
+        template: `
+        <div id="app">
+            <h1>{{msg}}</h1>
+            <h1 v-for='item in list'>{{item.msg}}</h2>
+            <button @click="msgChange">变更内容</button> 
+            <button @click="distoryHandle">销毁vue</button> 
+
+        </div>
+    
+        `,
+        el: "#app",
+        data: {// 表示页面中所有数据
+          msg: "nihao",
+          list:[
+              {msg:'aaa'}
+        ]
+        },
+        methods:{
+            msgChange(){
+                this.msg = '变更了';
+                this.list[0].msg = '1231'
+            },
+            distoryHandle(){
+                this.$destroy();
+            }
+        },
+        destroyed(){
+            // 销毁vue 后所有的时间绑定；计算属性.... 都失效了
+            console.log('销毁了')
+        }
+      });
+      app.$mount("#app");
+    </script>
+  </body>
+</html>
+<!-- 
+    render
+    响应式数据
+    虚拟dom
+
+    编译需要时间
+    可能存下问题：
+      1：数据跟新了 视图没更新，
+      2：有一些操作等待 dom 渲染以后再进行；问题：没有dom 先触发了.
+ -->

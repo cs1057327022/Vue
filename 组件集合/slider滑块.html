@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>slider滑块</title>
+</head>
+<style lang="scss" scoped>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  .overall {
+    position: absolute;
+    top: 200px;
+    /* transform: translate(-50%, -50%); */
+    display: flex;
+    justify-content: center;
+  }
+
+  .lineDiv {
+    left: 500px;
+    width: 1000px;
+    height: 8px;
+    border-radius: 10px;
+    box-shadow: 0 0 5px #ccc;
+    position: relative;
+    cursor: pointer;
+  }
+
+  .dot {
+    position: absolute;
+    top: -3.5px;
+    left: 0;
+    width: 15px;
+    height: 15px;
+    background: #fff;
+    cursor: pointer;
+    border-radius: 50%;
+    border: 2px solid #409EFF;
+  }
+
+  .dot:hover {
+    width: 17px;
+    height: 17px;
+  }
+
+  .title {
+    font-weight: bold;
+    width: 100px;
+    height: 30px;
+    position: absolute;
+    left: calc(50% - 50px);
+    top: calc(50% - 50px);
+
+  }
+
+  .title {
+    position: absolute;
+    font-size: 20px;
+    top: -45px;
+    left: -10px;
+    width: 35px;
+    height: 35px;
+    line-height: 35px;
+    text-align: center;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 14px;
+    background: black;
+  }
+
+  .title:after {
+    content: "";
+    width: 0px;
+    height: 0px;
+    border-top: 6px solid black;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-bottom: 6px solid transparent;
+    display: block;
+    margin-left: 11px;
+  }
+</style>
+
+<body>
+  <div id="app">
+    <template>
+      <div class="overall">
+        <div class="lineDiv" ref="lineDiv"
+          :style="`background: linear-gradient(to right,#409EFF 0,#409EFF ${bck}px, white ${bck}px,white 100%)`">
+          <div class="dot" ref="dot">
+            <div class="title" v-if="flag">{{num}}</div>
+          </div>
+        </div>
+      </div>
+  </div>
+  </template>
+  </div>
+</body>
+
+</html>
+<script src="../js/vue.js"></script>
+<script type="module">
+  new Vue({
+    el: '#app',
+    data: {
+      flag: false,
+      num: 0,
+      bck: 0,
+    },
+    mounted() {
+      this.getDom('lineDiv', 'dot')
+    },
+    methods: {
+      getDom(d1, d2) {
+        var _this = this//声明一个变量指向Vue实例this，保证作用域一致
+        var lineDiv = this.$refs[d1];
+        var dot = this.$refs[d2];
+        //点击进度条
+        lineDiv.onmousedown = function (ev) {
+          // console.log(this);
+          // console.log(_this);
+          ev.preventDefault();
+          var oEvent = ev || event;
+          var ldX = oEvent.clientX - lineDiv.offsetLeft
+          _this.bck = ldX;
+          dot.onmouseover = function () {
+            _this.flag = true
+          }
+          var num1 = (ldX / ((lineDiv.offsetWidth - dot.offsetWidth) / 100)).toFixed(0);
+          num1 > 100 ? _this.num = 100 : _this.num = num1;
+          dot.style.left = ldX + "px";
+        }
+        //拖动圆点
+        dot.onmousedown = function (ev) {
+          ev.preventDefault();
+          _this.flag = true
+          //鼠标按下位置
+          var oEvent = ev || event;
+          var disX = oEvent.clientX - dot.offsetLeft;//获取鼠标点击时圆点的位置
+          // console.log(disX);
+          document.onmousemove = function (ev) {
+            var oEvent = ev || event;
+            var len = oEvent.clientX - disX;
+            if (len < 0) {
+              len = 0;
+            } else if (len > lineDiv.offsetWidth - dot.offsetWidth) {
+              len = lineDiv.offsetWidth - dot.offsetWidth;
+            }
+            _this.num = (len / ((lineDiv.offsetWidth - dot.offsetWidth) / 100)).toFixed(0)//指定小数位数
+            _this.bck = len
+            dot.style.left = len + "px";
+          };
+          dot.onmouseover = function () {
+            _this.flag = true
+          }
+          document.onmouseup = function () {
+            _this.flag = false
+            document.onmousemove = null;
+            document.onmouseup = null;
+          };
+        };
+      },
+    }
+  });
+</script>

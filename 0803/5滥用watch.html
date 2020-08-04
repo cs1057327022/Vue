@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <h1>{{sum}}</h1>
+        <!-- <button @click='destoryHandle'>删除vue</button> -->
+    </div>
+    <script src="./vue.js"></script>
+    <script>
+        var app = new Vue({
+            el:'#app',
+            data:{
+               x:1,
+               y:1,
+               z:2
+            },
+            // z = x+y   z 随着 x y 的滨化而变化
+            // watch:{
+            //     x:function(val){
+            //         co0nsole.log('x 改变化')
+            //         this.z = val + this.y
+            //     },
+            //     y:function(val){
+            //         console.log('y 也变化了')
+            //         this.z = val +this.x
+                    
+            //     }
+            // },
+            computed:{
+                // 解决滥用watch 
+                sum:function(){
+                    // 可以再这里 依赖多个 变量
+                    console.log('计算属性')
+                    this.z  = this.x +this.y
+                    return this.z
+                }
+            },
+            created(){
+                setInterval(()=>{
+                    this.x = this.x + 1
+                    this.y = this.y +1
+                },1000)
+            }   
+        })
+        // 面试题
+        // watch 与computed 的区别
+        // watch 监听属性；可以监听到 vue 某一个变量值的变化过程，当被监听的响应式数据发生变化时，函数执行。注意 只能监听一个响应式数据
+        // computed 计算属性，函数方法体内部；有依赖响应式数据，当依赖的响应式数据发生变化时，函数执行。注意；函数提中国；可以依赖多个响应式数据
+        // 从执行程序，computed 可以依赖多个；watch 多个数据 多个函数；执行多个函数；
+        // 对于 某一个响应式数据；需要 随着多个响应式数据的变化而变化；应该使用 computed 碧曼执行对于的程序
+    </script>
+</body>
+</html>
+<!-- 
+    computed  methods 区别   ===》缓存
+    computed  watch 区别    ===> 依赖响应式数据的个数  多个
+ -->

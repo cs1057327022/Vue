@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="app">
+      <!-- ref 绑定dom  this.$refs 获取dom 元素 -->
+      <h1 ref="wyh">我是一个内容g</h1>
+      <div ref="wyq">{{msg}}</div>
+    </div>
+    <script src="./vue.js"></script>
+    <script>
+      var app = new Vue({
+        el: "#app",
+        data: {
+          msg: "dddd",
+        },
+        mounted() {
+          // 在这里 只是更佳严谨
+          this.$nextTick(() => {
+            let { wyh, wyq } = this.$refs;
+            let h = getComputedStyle(wyh, null)["height"];
+            let H = getComputedStyle(wyq, null)["height"];
+
+            console.log(this.$refs);
+            console.log(h, H);
+          });
+        },
+        methods: {
+          getDom() {},
+        },
+      });
+    </script>
+  </body>
+</html>

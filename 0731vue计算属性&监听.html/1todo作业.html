@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <input type="text" placeholder="请输入菜单" v-model="ipt" @keydown.enter="addTodo">
+        <ul>
+            <li @click="deleteTodo(item.id)" v-for="(item,index) in list" :data-id="item.id">{{item.name}}</li>
+        </ul>
+    </div>
+    <script src="./vue.js"></script>
+    <script>
+        var app = new Vue({
+            el:"#app",
+            data:{
+                ipt:'',// 表示用户输入内哦让那个
+                list:[],
+                id:0
+            },
+            methods: {
+                addTodo(){
+                    console.log(this.ipt)
+                    let item = {
+                        name:this.ipt,
+                        id: this.id++
+                    }
+                    this.list.push(item);
+                    this.ipt= ''
+                },
+                deleteTodo(id){
+                    this.list = this.list.filter(item=>{
+                        return item.id !== id
+                    })
+                }
+            }
+        })
+    </script>
+</body>
+</html>

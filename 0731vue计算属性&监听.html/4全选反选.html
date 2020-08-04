@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <dd>
+            <dt>
+                <input type="checkbox" v-model="allCheck" @change="all">
+                <span>{{txt}}</span>
+                <input type="checkbox" @change="reverse">
+                <span>反选</span>
+            </dt>
+            <dt v-for="(item,index) in formList">
+                <input type="checkbox" v-model='checkArr' @change="changTodo" :value="item.id">
+                <span>{{item.name}}</span>
+            </dt>
+        </dd>
+        <h1 v-for="item in checkArr">{{item}}</h1>
+    </div>
+    <script src="./vue.js"></script>
+    <script>
+        var app = new Vue({
+            el:"#app",
+            data:{
+                formList:[
+                    {id:'wyh',name:'王宇航'},
+                    {id:'cx',name:'陈寻'},
+                    {id:'aa',name:'aa'},
+                    {id:'cc',name:'cc'},
+                    {id:'dd',name:'dd'},
+                    {id:'ff',name:'ff'},
+                    {id:'ss',name:'ss'},
+                    {id:'gg',name:'qq'},
+
+                ],
+                checkArr:[],
+                allCheck:false,
+                txt:'全选'
+            },
+            methods:{
+                all(){
+                    this.checkArr = []
+                    console.log(this.allCheck)
+                    if(this.allCheck){
+                        this.formList.forEach(item=>{
+                            // 去重处理
+                            this.checkArr.push(item.id)
+                        })
+                        this.txt = '全不选'
+                    }else{
+                        this.txt =  '全选'
+                    }
+                },
+                reverse(){
+                    let res = [];
+                    var flag = true;
+                    for(var i =0;i<this.formList.length;i++){
+                        for(var j = 0;j<=this.checkArr.length;j++){
+                            if(this.formList[i].id == this.checkArr[j]){
+                               // checkArr 中由；不能添加到 res中
+                               flag = true;
+                               break
+                            }else{
+                                flag = false
+                            }
+                        }
+                        if(!flag){
+                            res.push(this.formList[i].id)
+                        }
+                    }
+                    this.checkArr = res;
+                    this.isCheckAll()
+                },
+                changTodo(){
+                    this.isCheckAll()
+                },
+                isCheckAll(){
+                    if(this.checkArr.length<this.formList.length){
+                        this.allCheck  =false;
+                        this.txt = '全选'
+                    }else{
+                        this.allCheck = true;
+                        this.txt = '全不选'
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+</html>
